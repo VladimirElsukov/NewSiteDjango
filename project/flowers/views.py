@@ -1,65 +1,71 @@
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 
-
-menu = [{'title': 'О сайте', 'url_name': 'about'},
-        {'title': 'Добавить статью', 'url_name': 'add_page'},
-        {'title': 'Обратная связь', 'url_name': 'contact'},
-        {'title': 'Войти', 'url_name': 'login'}
+menu = [{'title': "О сайте", 'url_name': 'about'},
+        {'title': "Добавить статью", 'url_name': 'add_page'},
+        {'title': "Обратная связь", 'url_name': 'contact'},
+        {'title': "Войти", 'url_name': 'login'}
 ]
 
-
-flower_dict = [
+data_db = [
     {
         'id': 1,
-        'title': 'Роза',
-        'content': 'Роза – королева цветов, символ красоты и любви.',
-        'published': True
+        'title': 'Розы',
+        'content': '''Роза – цветок, который символизирует любовь, красоту и благородство. Это одно из самых древних растений, известных человеку. Род роз насчитывает около 150 видов, произрастающих в разных уголках мира. Их разнообразие поражает: от миниатюрных до крупных кустарников, от нежного белого цвета до насыщенного бордового оттенка. Розы выращивают как для украшения садов, так и для создания парфюмерии. Аромат розы используется в производстве духов, кремов и других косметических средств. В культуре многих народов роза занимает особое место, символизируя страсть, чистоту и вечную молодость.''',
+        'is_published': True
     },
     {
         'id': 2,
-        'title': 'Тюльпан',
+        'title': 'Тюльпаны',
         'content': 'Тюльпаны – яркие весенние цветы, символизирующие возрождение и начало новой жизни.',
-        'published': False
+        'is_published': False
     },
     {
         'id': 3,
-        'title': 'Лилия',
+        'title': 'Лилии',
         'content': 'Лилии – элегантные цветы, часто используемые в свадебных букетах и символизирующие чистоту и благородство.',
-        'published': True
+        'is_published': True
     },
     {
         'id': 4,
-        'title': 'Ромашка',
+        'title': 'Ромашки',
         'content': 'Ромашки – простые, но милые цветы, ассоциирующиеся с летом и детством.',
-        'published': False
+        'is_published': False
     },
     {
         'id': 5,
-        'title': 'Пион',
+        'title': 'Пионы',
         'content': 'Пионы – пышные цветы, символизирующие богатство, честь и счастье.',
-        'published': True
+        'is_published': True
     },
 ]
 
+cats_db = [
+    {'id': 1, 'name': 'Цветы'},
+    {'id': 2, 'name': 'Букеты'},
+    {'id': 3, 'name': 'Композиции'},
+    {'id': 4, 'name': 'Корзины с цветами'},
+    {'id': 5, 'name': 'Упаковка и аксессуары'},
+]
 
 def index(request):
-    # t = render_to_string('flowers/index.html')
-    # return HttpResponse(t)
-    data = {'title': 'Главная страница',
-            'menu': menu,
-            'posts': flower_dict,
-            }
+    data = {
+        'title': 'Доставка цветов Москва',
+        'menu': menu,
+        'posts': data_db,
+    }
     return render(request, 'flowers/index.html', context=data)
 
+
 def about(request):
-    return render(request, 'flowers/about.html', {'title': 'О нас'})
+    return render(request, 'flowers/about.html', {'title': 'О сайте', 'menu': menu})
 
 
 def show_post(request, post_id):
-    return HttpResponse(f"Отображение статьи с id: {post_id}")
+    return HttpResponse(f"Отображение статьи с id = {post_id}")
 
 
 def addpage(request):
@@ -74,32 +80,8 @@ def login(request):
     return HttpResponse("Авторизация")
 
 
-
 def page_not_found(request, exception):
-     return HttpResponseNotFound("<h1>Страница не найдена</h2>")
+    return HttpResponseNotFound("<h1>Страница не найдена</h1>")
 
 
 
-
-
-
-
-
-# def categories(request, cat_id):
-#     return HttpResponse(f"<h3>Категории</h3> <p>id: {cat_id}</p>")
-#
-# def categories_slug(request, cat_slug):
-#     if request.GET:
-#         print(request.GET)
-#     else:
-#         print("Данных нет")
-#     return HttpResponse(f"<h3>Категории</h3> <p>slug: {cat_slug}</p>")
-#
-# def archive(request, year):
-#     if year > 2025:
-#         return redirect('cats', 'buket')
-#     return HttpResponse(f"<h3>Архив по годам</h3> <p>{year}</p>")
-# # Create your views here.
-#
-#
-#
