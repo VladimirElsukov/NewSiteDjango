@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ post.title }}</h1>
+<!--linebreaks добавляет перенос строк в браузере-->
+{{ post.content|linebreaks }}
+{% if post.photo %}
+<p><img class="img-article-left" src="post.photo.url"></p>
+
+{% endif %}
+{% endblock %}

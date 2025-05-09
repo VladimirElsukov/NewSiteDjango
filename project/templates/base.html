@@ -36,17 +36,24 @@
 <!-- Sidebar слева -->
 	<td valign="top" class="left-chapters">
 	<ul id="leftchapters">
-		{% get_categories %}
+
+		{% if cat_selected == 0 %}
 		<li class="selected">Все категории</li>
-		<li><a href="#">Букеты</a></li>
-		<li><a href="#">Цветы</a></li>
-		<li><a href="#">Композиции</a></li>
-		<li><a href="#">Корзины с цветами</a></li>
-		<li><a href="#">Упаковка и аксессуары</a></li>
+		{% else %}
+		<li><a href="{% url 'home' %}">Все категории</a></li>
+		{% endif %}
+
+		{% show_categories cat_selected %}
+
+
 		<li class="share">
 		<p>Наш канал Дзен</p>
 		<a class="share-dzen" href="https://dzen.ru/vitrina" target="_blank" rel="nofollow"></a>
 		</li>
+
+		<li>{% show_all_tags %}</li>
+
+
 	</ul>
 </td>
 <!-- Конец Sidebar'а -->
